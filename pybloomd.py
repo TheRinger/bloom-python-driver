@@ -63,9 +63,10 @@ class BloomdConnection(object):
         if self.sock is None:
             self.sock = self._create_socket()
         sent = False
-        for attempt in xrange(self.attempts):
+        for attempt in range(self.attempts):
             try:
-                self.sock.sendall(cmd + "\n")
+                socket_message = cmd + "\n"
+                self.sock.sendall(socket_message.encode())
                 sent = True
                 break
             except socket.error as e:
@@ -114,7 +115,7 @@ class BloomdConnection(object):
         and reads the response, performing a retry if necessary.
         """
         done = False
-        for attempt in xrange(self.attempts):
+        for attempt in range(self.attempts):
             try:
                 self.send(cmd)
                 return self.read()
